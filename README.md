@@ -7,7 +7,7 @@ This repo has two main scripts:
 - **`adftd_structure_function.m`** — runs the manuscript analyses/figures (PLS on atrophy vs FC, syndrome-specific FC contrasts, gradient–function links, coupled-oscillator/eigenmode analyses).
 
 > **Data policy:** This repo is **code-only**. The large dataset (`adftd_structure_function_data.mat`, ~2.6 GB) is hosted on Zenodo.  
-> **Zenodo DOI:** _TBD_ (add link once published). Place the `.mat` next to the `.m` files.
+> **Zenodo DOI:** https://doi.org/10.5281/zenodo.16783268. Place the `.mat` next to the `.m` files.
 
 ---
 
@@ -30,11 +30,8 @@ cd structure_function
 ---
 
 ## Get the data
-- **Full dataset (2.6 GB):** `adftd_structure_function_data.mat` → **Zenodo DOI: _TBD_**  
+- **Full dataset (2.6 GB):** `adftd_structure_function_data.mat` → **Zenodo DOI: https://doi.org/10.5281/zenodo.16783268**  
   Put the file in the repo root.
-- **(Optional) Demo dataset (~tens of MB):** **Zenodo DOI: _TBD_**  
-  Useful for a quick sanity check.
-
 ---
 
 ## Quick start (full pipeline)
