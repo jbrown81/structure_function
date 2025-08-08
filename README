@@ -1,49 +1,121 @@
-AD-FTD Structure‑Function Analysis
+# Structure–Function Analyses for AD/FTD (MATLAB)
+Code for the analyses in *Functional Network Collapse in Neurodegenerative Disease* (Brown et al., 2025).
 
-MATLAB and R code for the analyses in Functional Network Collapse in Neurodegenerative Disease (Brown et al., 2025).
+This repo has two main scripts:
 
-Overview
-This repository contains code for:
-- Partial‑least‑squares (PLS) analysis linking regional atrophy to functional connectivity.
-- Syndrome‑specific FC patterns and reconstructions from PLS components.
-- Regression of functional PLS components on gradient covariance.
-- Coupled‑oscillator simulations of gradient dynamics and eigenmode analyses.
+- **`adftd_structure_function_prep.m`** — loads the dataset, builds gradient codes (PCA), runs ComBat harmonization, reconstructs ROI-level FC, and prepares all variables.
+- **`adftd_structure_function.m`** — runs the manuscript analyses/figures (PLS on atrophy vs FC, syndrome-specific FC contrasts, gradient–function links, coupled-oscillator/eigenmode analyses).
 
+> **Data policy:** This repo is **code-only**. The large dataset (`adftd_structure_function_data.mat`, ~2.6 GB) is hosted on Zenodo.  
+> **Zenodo DOI:** _TBD_ (add link once published). Place the `.mat` next to the `.m` files.
 
-System requirements:
-Software dependencies
-Matlab (tested on R2022b)
-MATLAB toolboxes: Statistics & Machine Learning; Signal Processing
-External MATLAB packages: CircStat 2012a (included)
-R studio (Version 2022.12.0+353)
+---
 
-Installation guide:
-Start MATLAB and run:
-cd adftd_structure_function
-startup          % adds sub‑folders to MATLAB path
+## Requirements
+- **MATLAB** R2021b or newer (tested on R2024a)
+- **Toolboxes:** Statistics & Machine Learning (for `plsregress`, `classify`, `fitlm`, `regstats`)
+- **Optional:** Mapping Toolbox (for `wrapTo2Pi`) — if missing, use `mod(x, 2*pi)` instead
+- **Included:** `CircStat2012a/` (BSD) for circular stats utilities
 
-Typical install time: < 2 minutes
+Runs on macOS/Windows/Linux. The full dataset needs a few GB of free RAM/disk; a small demo (if provided on Zenodo) will run on typical laptops.
 
-Demo:
-Data: 
-- for Matlab, all necessary data is stored in adftd_structure_function_data.mat. Run adftd_structure_function.m script.
-- for R, all necessary data is in cognition_data/*. Run cognition_gam.R script.
-Expected output: 
-- for Matlab, key figures, print outs, and new variables
-- for R, GAM F statistics and p-values for each neuropsych model.
-Expected run time: < 5 minutes
+---
 
-Instructions for use:
-How to run the software on your data: 
-- get atrophy and functional connectivity matrices, feed into PLS
-- get gradient projections, coupling parameters, eigenmodes: TBD
-Reproduction instructions: see above
+## Get the code
+```bash
+git clone https://github.com/jbrown81/structure_function.git
+cd structure_function
+```
 
+---
 
-License & patent
-Code: Apache 2.0
+## Get the data
+- **Full dataset (2.6 GB):** `adftd_structure_function_data.mat` → **Zenodo DOI: _TBD_**  
+  Put the file in the repo root.
+- **(Optional) Demo dataset (~tens of MB):** **Zenodo DOI: _TBD_**  
+  Useful for a quick sanity check.
 
+---
 
-Contact
-Jesse BrownE‑mail: jesse@radiata.ai
-GitHub: @jbrown81
+## Quick start (full pipeline)
+1) **Start MATLAB** in the repo root and add subfolders to the path:
+```matlab
+restoredefaultpath; rehash toolboxcache; addpath(genpath(pwd));
+```
+
+2) **Prepare inputs** (loads the big `.mat`, builds gradients, ComBat, FC vectors):
+```matlab
+adftd_structure_function_prep
+```
+
+3) **Run analyses & figures**:
+```matlab
+adftd_structure_function
+```
+
+Figures display in MATLAB as they’re generated. Save via **File → Save As** or add `saveas` calls if you want files written automatically.
+
+---
+
+## What each script does
+
+### `adftd_structure_function_prep.m`
+- Loads `adftd_structure_function_data.mat`
+- PCA on independent controls → gradient codes; projects all subjects
+- Computes gradient covariance; reconstructs ROI-level FC from gradient covariance + ROI weights
+- ComBat harmonization (scanner batch) for atrophy & gradient covariance
+- Vectorizes FC upper triangle (`pls_fc`) and gradient-pair covariances (`pls_grad_cov_n`)
+- Leaves in memory (examples):  
+  `atrophy_300_harmonized`, `pls_fc`, `pls_fc_pairs`, `keep_pls_fc`,  
+  `grad_covs_all_harmonized`, `pls_grad_cov_n`, `pls_grad_pairs_n`,  
+  `fc_mats_via_codes`, `roi_comp_slopes_fc_in_grp2`, `codes_fc_in_all_proj_grp2`,  
+  `dxs_all`, `keep_str_fc`, `scanners_all`, etc.
+
+> See the header of `adftd_structure_function_prep.m` for the full list of **required external variables** expected inside the dataset.
+
+### `adftd_structure_function.m`
+- **PLS (Figure 1):** atrophy (321×246) vs FC (321×30135); flips signs so higher scores = higher atrophy; plots score correlations and FC loading matrices
+- **Syndrome-specific FC (Figure 2):** LDA to select typical cases; observed vs reconstructed FC contrasts
+    
+- **Gradient–function link (Figure 4):** regress `Yscores` on gradient pair covariances; report R², significant pairs, term contributions
+- **Dynamics / eigenmodes (Figures 5–6; Supp Fig 10):** estimate coupling; simulate; compare predicted vs real FC; compute eigenmode magnitudes/angles and correlate with gradient covariance
+
+---
+
+## Repo contents (key files)
+- `adftd_structure_function_prep.m`, `adftd_structure_function.m` — main scripts  
+- `combat.m`, `combat_scripts/` — ComBat harmonization  
+- `coupling_parameters.m`, `latent_derivatives.m`, `coupled_oscillator_function.m` — dynamical systems helpers  
+- `plot_matrix.m`, `plotcorr.m` — plotting helpers  
+- `CircStat2012a/` — circular stats utilities (BSD)  
+- `gradient_maps/`, `cognition_data/`, `cogniton_gam.R` — ancillary resources
+
+> **Not tracked:** `*.mat` files (large data). This repo intentionally avoids Git LFS.
+
+---
+
+## Troubleshooting
+- **`wrapTo2Pi` not found:** Replace calls with `mod(x, 2*pi)` or install Mapping Toolbox.  
+- **Out-of-memory with full dataset:** Try the demo dataset or run sections individually.  
+- **Path issues:** Re-run `restoredefaultpath; rehash toolboxcache; addpath(genpath(pwd));`.
+
+---
+
+## Citation
+If you use this code, please cite:
+```
+Brown J, et al. Functional network collapse in neurodegenerative disease. 2025.
+Code: https://github.com/jbrown81/structure_function
+```
+
+---
+
+## License & patent
+Licensed under **Apache License 2.0** (see `LICENSE`).  
+This implementation practices Radiata’s patented methods (U.S. Patent **[fill in number]**).  
+Radiata grants Apache-2.0 licensees a **royalty-free, worldwide** patent license **solely** for use with software released under Apache-2.0 or a compatible OSI license.
+
+---
+
+## Contact
+Jesse Brown — `jesse@radiata.ai`
