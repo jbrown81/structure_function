@@ -1,0 +1,49 @@
+AD-FTD Structure‑Function Analysis
+
+MATLAB and R code for the analyses in Functional Network Collapse in Neurodegenerative Disease (Brown et al., 2025).
+
+Overview
+This repository contains code for:
+- Partial‑least‑squares (PLS) analysis linking regional atrophy to functional connectivity.
+- Syndrome‑specific FC patterns and reconstructions from PLS components.
+- Regression of functional PLS components on gradient covariance.
+- Coupled‑oscillator simulations of gradient dynamics and eigenmode analyses.
+
+
+System requirements:
+Software dependencies
+Matlab (tested on R2022b)
+MATLAB toolboxes: Statistics & Machine Learning; Signal Processing
+External MATLAB packages: CircStat 2012a (included)
+R studio (Version 2022.12.0+353)
+
+Installation guide:
+Start MATLAB and run:
+cd adftd_structure_function
+startup          % adds sub‑folders to MATLAB path
+
+Typical install time: < 2 minutes
+
+Demo:
+Data: 
+- for Matlab, all necessary data is stored in adftd_structure_function_data.mat. Run adftd_structure_function.m script.
+- for R, all necessary data is in cognition_data/*. Run cognition_gam.R script.
+Expected output: 
+- for Matlab, key figures, print outs, and new variables
+- for R, GAM F statistics and p-values for each neuropsych model.
+Expected run time: < 5 minutes
+
+Instructions for use:
+How to run the software on your data: 
+- get atrophy and functional connectivity matrices, feed into PLS
+- get gradient projections, coupling parameters, eigenmodes: TBD
+Reproduction instructions: see above
+
+
+License & patent
+Code: Apache 2.0
+
+
+Contact
+Jesse BrownE‑mail: jesse@radiata.ai
+GitHub: @jbrown81
