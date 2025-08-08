@@ -53,7 +53,7 @@ adftd_structure_function_prep
 adftd_structure_function
 ```
 
-Figures display in MATLAB as they’re generated. Save via **File → Save As** or add `saveas` calls if you want files written automatically.
+Figures display in MATLAB as they’re generated.
 
 ---
 
