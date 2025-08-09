@@ -1,5 +1,5 @@
 # Structure–Function Analyses for AD/FTD (MATLAB)
-Code for the analyses in *Functional Network Collapse in Neurodegenerative Disease* (Brown et al., 2025).
+Code for the analyses in *Functional network collapse in neurodegenerative disease* (Brown et al., 2025).
 
 This repo has two main scripts:
 
@@ -17,7 +17,7 @@ This repo has two main scripts:
 - **Optional:** Mapping Toolbox (for `wrapTo2Pi`) — if missing, use `mod(x, 2*pi)` instead
 - **Included:** `CircStat2012a/` (BSD) for circular stats utilities
 
-Runs on macOS/Windows/Linux. The full dataset needs a few GB of free RAM/disk; a small demo (if provided on Zenodo) will run on typical laptops.
+Runs on macOS/Windows/Linux. The full dataset needs a few GB of free RAM/disk.
 
 ---
 
@@ -35,12 +35,12 @@ cd structure_function
 ---
 
 ## Quick start (full pipeline)
-1) **Start MATLAB** in the repo root and add subfolders to the path:
+1) **Start MATLAB**, clear path, and add subfolders to the path:
 ```matlab
 restoredefaultpath; rehash toolboxcache; addpath(genpath(pwd));
 ```
 
-2) **Prepare inputs** (loads the big `.mat`, builds gradients, ComBat, FC vectors):
+2) **Optional: Prepare inputs** (loads the `.mat`, builds gradients, ComBat, FC vectors; running this script is not necessary for running the main analysis script as all the variables created by this script are also already preloaded in adftd_structure_function_data.mat):
 ```matlab
 adftd_structure_function_prep
 ```
