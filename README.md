@@ -2,9 +2,9 @@
 
 Code for analyses in “Functional network collapse in neurodegenerative disease” (Brown et al., 2025).
 
-- Main scripts:
-  - `adftd_structure_function_prep.m`: loads dataset, builds gradient codes (PCA on independent controls), reconstructs ROI-level FC, ComBat harmonization, vectorizes FC and gradient-pair covariances.
-  - `adftd_structure_function.m`: runs manuscript figures (PLS: atrophy–FC; syndrome-specific FC contrasts; gradient–function links; coupled-oscillator/eigenmode dynamics).
+### Main scripts:
+- `adftd_structure_function_prep.m`: loads dataset, builds gradient codes (PCA on independent controls), reconstructs ROI-level FC, ComBat harmonization, vectorizes FC and gradient-pair covariances.
+- `adftd_structure_function.m`: runs manuscript figures (PLS: atrophy–FC; syndrome-specific FC contrasts; gradient–function links; coupled-oscillator/eigenmode dynamics).
 
 ### Data
 - Large dataset: `adftd_structure_function_data.mat` (≈2.6 GB), placed in repo root.
